@@ -99,7 +99,10 @@ class gitPushPUML():
 			fileName = os.path.splitext(ExtensionFile[1])[0]
 			commitMsg = fileName + " Latest"
 			repo.git.add(file)
-			repo.git.commit('-m', commitMsg)
+			try:
+				repo.git.commit('-m', commitMsg)
+			except git.exc.GitCommandError:
+				print("the file has no changes")
 		
 		
 	def gitPull(self):
