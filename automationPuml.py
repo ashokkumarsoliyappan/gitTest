@@ -58,6 +58,7 @@ class gitPushPUML():
 		# self.fileCopyLocal(requiredFiles,localFodlerPath)
 		# self.fileNameAndPath(localFodlerPath)
 		self.gitUserLogin(desiredPath)
+		exit()
 		
 	def deleteLocalFolder(self,localFodlerPath):
 		shutil.rmtree(folderPath)
@@ -94,7 +95,6 @@ class gitPushPUML():
 		self.fileCopyLocal(requiredFiles,localFodlerPath)
 		filesCopied = self.fileFormatFilter(localFodlerPath)
 		for file in filesCopied:
-			print(file)
 			ExtensionFile= os.path.split(file)
 			fileName = os.path.splitext(ExtensionFile[1])[0]
 			commitMsg = fileName + " Latest"
@@ -111,7 +111,9 @@ class gitPushPUML():
 		
 	def gitPush(self):
 		repo.git.push()
-		# origin.push()
+		origin.push()
+		print("Latest changes and files have been commited in the GitHub remote Repository")
+		exxit()
 		
 		
 obj = gitPushPUML()		
