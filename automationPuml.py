@@ -108,7 +108,7 @@ class gitPushPUML():
 		
 	def gitPush(self):
 		repo.git.push()
-		origin.push()
+		# origin.push()
 		
 		
 obj = gitPushPUML()		
