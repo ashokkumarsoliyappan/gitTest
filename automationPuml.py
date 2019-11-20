@@ -116,6 +116,7 @@ class gitPushPUML():
 		origin.pull()
 		
 	def gitPush(self):
+		print("push begins")
 		repo.git.push()
 		origin.push()
 		print("Latest changes and files have been commited in the GitHub remote Repository")
