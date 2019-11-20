@@ -129,7 +129,6 @@ class gitPushPUML():
 		titleFormat.set_align('center')
 		worksheet.write('A1', 'File Name',titleFormat)
 		worksheet.write('B1', 'GitHub File URL',titleFormat)
-		worksheet.write('C1', 'File Uploaded Date',titleFormat)
 
 	def gitUrlFormation(self,fileUpload,filenameForm):
 		gitDoomai
