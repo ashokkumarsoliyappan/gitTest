@@ -1,5 +1,6 @@
 from git import Repo
 from shutil import copyfile
+from datetime import datetime
 from sys import exit
 import git
 import glob
@@ -84,7 +85,6 @@ class gitPushPUML():
 		self.gitPull()
 		fileUpload,filenameForm = self.gitAddCommit(localRepoPath)
 		self.gitPush()
-		# self.excelWriter()
 		self.gitUrlFormation(fileUpload,filenameForm)
 		
 	def gitStatus(self):
@@ -92,8 +92,7 @@ class gitPushPUML():
 	
 	def gitAddCommit(self,localRepoPath):
 		print("comitAdd")
-		fileUpload =[]
-		filenameForm = []
+		fileUpload,filenameForm =[],[]
 		localFodlerPath = localRepoPath + "\/" + config.gitUserCred['gitHubRepository']
 		requiredFiles = self.fileFormatFilter(desiredPath)
 		self.fileCopyLocal(requiredFiles,localFodlerPath)
@@ -121,7 +120,7 @@ class gitPushPUML():
 		origin.push()
 		print("Latest changes and files have been commited in the GitHub remote Repository")
 	
-	def excelWriter(self):
+	def excelWriter(self,gitURL,filenameForm):
 		print("Excel Writer Begins")
 		workbook = xlsxwriter.Workbook("GitHubUrl.xlsx")
 		worksheet = workbook.add_worksheet()
@@ -129,17 +128,25 @@ class gitPushPUML():
 		titleFormat.set_align('center')
 		worksheet.write('A1', 'File Name',titleFormat)
 		worksheet.write('B1', 'GitHub File URL',titleFormat)
+		worksheet.write('B1', 'File Upload Date',titleFormat)
+		
+		for cellData in range(len(gitURL)):
+			worksheet.write(cellData+1,0,filenameForm[cellData])
+			worksheet.write(cellData+1,1,gitURL[cellData])
+			worksheet.write(cellData+1,2,now.strftime("%d/%m/%Y %H:%M:%S"))
+		
 		workbook.close()
+		print("Excel have been successfully created")
 
 	def gitUrlFormation(self,fileUpload,filenameForm):
+		gitURL = []
 		gitDomain = config.gitUserCred['gitCloneUrl'].split(config.gitUserCred['gitHubRepository'])
-		print(gitDomain)
-		exit()
 		for file in fileUpload:
-			docName = os.path.split(config.gitUserCred['gitCloneUrl'])
-			gitFileURL = gitDomain + "\/" + config.gitUserCred['gitHubRepository'] + "\master\/" 
-		
-		self.excelWriter()
+			docSplit = file.split(config.gitUserCred['gitHubRepository'])
+			docName = docSplit[1].replace('\\', "/")
+			fileURL = gitDomain[0] + config.gitUserCred['gitHubRepository'] + "/blob/master" + docName
+			gitURL.append(fileURL)
+		self.excelWriter(gitURL,filenameForm)
 		
 		
 		
