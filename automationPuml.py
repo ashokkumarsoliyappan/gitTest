@@ -1,5 +1,4 @@
-from git import Repo
-from git import *
+from git import Repo,Commit
 from shutil import copyfile
 from datetime import datetime
 from sys import exit
@@ -107,7 +106,7 @@ class gitPushPUML():
 			gitFileName.append(ExtensionFile[1])
 			try:
 				repo.git.commit('-m', commitMsg)
-				print(repo.commits())
+				print(repo.iter_commits())
 				exit()
 				filenameForm.append(ExtensionFile[1])
 				modifiedFiles.append(file)
