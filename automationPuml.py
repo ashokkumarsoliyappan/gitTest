@@ -83,16 +83,16 @@ class gitPushPUML():
 			print("repository clonned now")
 		
 		self.gitPull()
-		fileUpload,filenameForm = self.gitAddCommit(localRepoPath)
+		modifiedFiles,gitFileName = self.gitAddCommit(localRepoPath)
 		self.gitPush()
-		self.gitUrlFormation(fileUpload,filenameForm)
+		self.gitUrlFormation(modifiedFiles,gitFileName)
 		
 	def gitStatus(self):
 		print("git Status")
 	
 	def gitAddCommit(self,localRepoPath):
 		print("comitAdd")
-		fileUpload,filenameForm =[],[]
+		modifiedFiles,gitFileName,filenameForm =[],[],[]
 		localFodlerPath = localRepoPath + "\/" + config.gitUserCred['gitHubRepository']
 		requiredFiles = self.fileFormatFilter(desiredPath)
 		self.fileCopyLocal(requiredFiles,localFodlerPath)
@@ -102,13 +102,14 @@ class gitPushPUML():
 			fileName = os.path.splitext(ExtensionFile[1])[0]
 			commitMsg = fileName + " Latest"
 			repo.git.add(file)
+			gitFileName.append(ExtensionFile[1])
 			try:
 				repo.git.commit('-m', commitMsg)
 				filenameForm.append(ExtensionFile[1])
-				fileUpload.append(file)
+				modifiedFiles.append(file)
 			except git.exc.GitCommandError:
 				print("the file has no changes")
-		return fileUpload,filenameForm
+		return filesCopied,gitFileName
 		 
 	def gitPull(self):
 		global origin		
@@ -121,7 +122,7 @@ class gitPushPUML():
 		origin.push()
 		print("Latest changes and files have been commited in the GitHub remote Repository")
 	
-	def excelWriter(self,gitURL,filenameForm):
+	def excelWriter(self,gitURL,gitFileName):
 		print("Excel Writer Begins")
 		now = datetime.now()
 		workbook = xlsxwriter.Workbook("GitHubUrl.xlsx")
@@ -130,25 +131,26 @@ class gitPushPUML():
 		titleFormat.set_align('center')
 		worksheet.write('A1', 'File Name',titleFormat)
 		worksheet.write('B1', 'GitHub File URL',titleFormat)
-		worksheet.write('B1', 'File Upload Date',titleFormat)
+		worksheet.write('C1', 'COMMIT ID',titleFormat)
+		worksheet.write('D1', 'File Upload Date',titleFormat)
 		
 		for cellData in range(len(gitURL)):
-			worksheet.write(cellData+1,0,filenameForm[cellData])
+			worksheet.write(cellData+1,0,gitFileName[cellData])
 			worksheet.write(cellData+1,1,gitURL[cellData])
 			worksheet.write(cellData+1,2,now.strftime("%d/%m/%Y %H:%M:%S"))
 		
 		workbook.close()
 		print("Excel have been successfully created")
 
-	def gitUrlFormation(self,fileUpload,filenameForm):
+	def gitUrlFormation(self,filesCopied,gitFileName):
 		gitURL = []
 		gitDomain = config.gitUserCred['gitCloneUrl'].split(config.gitUserCred['gitHubRepository'])
-		for file in fileUpload:
+		for file in filesCopied:
 			docSplit = file.split(config.gitUserCred['gitHubRepository'])
 			docName = docSplit[1].replace('\\', "/")
 			fileURL = gitDomain[0] + config.gitUserCred['gitHubRepository'] + "/blob/master" + docName
 			gitURL.append(fileURL)
-		self.excelWriter(gitURL,filenameForm)
+		self.excelWriter(gitURL,gitFileName)
 		
 		
 		
