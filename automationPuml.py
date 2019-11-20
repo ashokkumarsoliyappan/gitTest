@@ -72,7 +72,7 @@ class gitPushPUML():
 		cloneRepository = config.gitUserCred['gitCloneUrl']
 		localRepoPath = os.getcwd()
 		repositoryClone = config.localGitRepository['gitLocalConfig']
-		global repo
+		global repo,head
 		if os.path.exists(repositoryClone):
 			repo = git.Repo(config.gitUserCred['gitHubRepository'])
 			print("The repository already exists")
@@ -106,7 +106,9 @@ class gitPushPUML():
 			gitFileName.append(ExtensionFile[1])
 			try:
 				repo.git.commit('-m', commitMsg)
-				print(repo.iter_commits())
+				head = repo.heads[0]
+				print(head.name)
+				print(head.commit)
 				exit()
 				filenameForm.append(ExtensionFile[1])
 				modifiedFiles.append(file)
