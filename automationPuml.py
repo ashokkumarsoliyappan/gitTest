@@ -90,23 +90,24 @@ class gitPushPUML():
 	
 	def gitAddCommit(self,localRepoPath):
 		print("comitAdd")
-		fileUrl = []
+		localfilePath = []
+		filename = []
 		localFodlerPath = localRepoPath + "\/" + config.gitUserCred['gitHubRepository']
 		requiredFiles = self.fileFormatFilter(desiredPath)
 		self.fileCopyLocal(requiredFiles,localFodlerPath)
 		filesCopied = self.fileFormatFilter(localFodlerPath)
 		for file in filesCopied:
-			print(file)
 			ExtensionFile= os.path.split(file)
 			fileName = os.path.splitext(ExtensionFile[1])[0]
-			print(fileName)
+			localfilePath.append(file)
+			filename.append(ExtensionFile[1])
 			commitMsg = fileName + " Latest"
 			repo.git.add(file)
 			try:
 				repo.git.commit('-m', commitMsg)
 			except git.exc.GitCommandError:
 				print("the file has no changes")
-		
+		print(localfilePath)
 		 
 	def gitPull(self):
 		global origin		
@@ -120,10 +121,16 @@ class gitPushPUML():
 		return True
 	
 	def excelWriter():
-		if os.path.exists(config.userExcelPath):
-			workbook = xlsxwriter.Workbook(config.userExcelPath)
-			worksheet = workbook.add_worksheet()
+		workbook = xlsxwriter.Workbook("GitHubUrl.xlsx")
+		worksheet = workbook.add_worksheet()
+		titleFormat = workbook.add_format({'bold': True, 'font_color': 'red'})
+		titleFormat.set_align('center')
+		worksheet.write('A1', 'File Name',titleFormat)
+		worksheet.write('B1', 'GitHub File URL',titleFormat)
+		worksheet.write('C1', 'File Uploaded Date',titleFormat)
 
+	def gitUrlFormation():
+		print("test")
 		
 		
 obj = gitPushPUML()		
