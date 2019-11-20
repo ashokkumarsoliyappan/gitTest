@@ -83,17 +83,17 @@ class gitPushPUML():
 			print("repository clonned now")
 		
 		self.gitPull()
-		modifiedFiles,gitFileName = self.gitAddCommit(localRepoPath)
+		modifiedFiles,gitFileName,commitID = self.gitAddCommit(localRepoPath)
 		exit()
 		self.gitPush()
-		self.gitUrlFormation(modifiedFiles,gitFileName)
+		self.gitUrlFormation(modifiedFiles,gitFileName,commitID)
 		
 	def gitStatus(self):
 		print("git Status")
 	
 	def gitAddCommit(self,localRepoPath):
 		print("comitAdd")
-		modifiedFiles,gitFileName,filenameForm =[],[],[]
+		modifiedFiles,gitFileName,filenameForm,commitID =[],[],[],[]
 		localFodlerPath = localRepoPath + "\/" + config.gitUserCred['gitHubRepository']
 		requiredFiles = self.fileFormatFilter(desiredPath)
 		self.fileCopyLocal(requiredFiles,localFodlerPath)
@@ -107,14 +107,12 @@ class gitPushPUML():
 			try:
 				repo.git.commit('-m', commitMsg)
 				head = repo.heads[0]
-				print(head.name)
-				print(head.commit)
-				exit()
+				commitID.append(head.commit)
 				filenameForm.append(ExtensionFile[1])
 				modifiedFiles.append(file)
 			except git.exc.GitCommandError:
 				print("the file has no changes")
-		return filesCopied,gitFileName
+		return filesCopied,gitFileName,commitID
 		 
 	def gitPull(self):
 		global origin		
@@ -127,7 +125,7 @@ class gitPushPUML():
 		origin.push()
 		print("Latest changes and files have been commited in the GitHub remote Repository")
 	
-	def excelWriter(self,gitURL,gitFileName):
+	def excelWriter(self,gitURL,gitFileName,commitID):
 		print("Excel Writer Begins")
 		now = datetime.now()
 		workbook = xlsxwriter.Workbook("GitHubUrl.xlsx")
@@ -142,12 +140,13 @@ class gitPushPUML():
 		for cellData in range(len(gitURL)):
 			worksheet.write(cellData+1,0,gitFileName[cellData])
 			worksheet.write(cellData+1,1,gitURL[cellData])
+			worksheet.write(cellData+1,1,commitID[cellData])
 			worksheet.write(cellData+1,2,now.strftime("%d/%m/%Y %H:%M:%S"))
 		
 		workbook.close()
 		print("Excel have been successfully created")
 
-	def gitUrlFormation(self,filesCopied,gitFileName):
+	def gitUrlFormation(self,filesCopied,gitFileName,commitID):
 		gitURL = []
 		gitDomain = config.gitUserCred['gitCloneUrl'].split(config.gitUserCred['gitHubRepository'])
 		for file in filesCopied:
@@ -155,7 +154,7 @@ class gitPushPUML():
 			docName = docSplit[1].replace('\\', "/")
 			fileURL = gitDomain[0] + config.gitUserCred['gitHubRepository'] + "/blob/master" + docName
 			gitURL.append(fileURL)
-		self.excelWriter(gitURL,gitFileName)
+		self.excelWriter(gitURL,gitFileName,commitID)
 		
 		
 		
