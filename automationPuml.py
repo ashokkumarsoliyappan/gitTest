@@ -84,8 +84,8 @@ class gitPushPUML():
 		self.gitPull()
 		fileUpload,filenameForm = self.gitAddCommit(localRepoPath)
 		self.gitPush()
-		self.excelWriter()
-		# self.gitUrlFormation(fileUpload,filenameForm)
+		# self.excelWriter()
+		self.gitUrlFormation(fileUpload,filenameForm)
 		
 	def gitStatus(self):
 		print("git Status")
@@ -132,7 +132,13 @@ class gitPushPUML():
 		workbook.close()
 
 	def gitUrlFormation(self,fileUpload,filenameForm):
-		gitDoomai
+		gitDomain = config.gitUserCred['gitCloneUrl'].split(config.gitUserCred['gitHubRepository'])
+		print(gitDomain)
+		exit()
+		for file in fileUpload:
+			docName = os.path.split(config.gitUserCred['gitCloneUrl'])
+			gitFileURL = gitDomain + "\/" + config.gitUserCred['gitHubRepository'] + "\master\/" 
+		
 		self.excelWriter()
 		
 		
