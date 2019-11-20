@@ -82,7 +82,9 @@ class gitPushPUML():
 			print("repository clonned now")
 		
 		self.gitPull()
-		gitData = self.gitAddCommit(localRepoPath)
+		fileUpload,filenameForm = self.gitAddCommit(localRepoPath)
+		print(fileUpload)
+		exit()
 		self.gitPush()
 		
 	def gitStatus(self):
@@ -107,8 +109,7 @@ class gitPushPUML():
 				fileUpload.append(file)
 			except git.exc.GitCommandError:
 				print("the file has no changes")
-		print(filenameForm)
-		exit()
+		return fileUpload,filenameForm
 		 
 	def gitPull(self):
 		global origin		
