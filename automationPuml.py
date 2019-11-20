@@ -84,7 +84,6 @@ class gitPushPUML():
 		
 		self.gitPull()
 		modifiedFiles,gitFileName,commitID = self.gitAddCommit(localRepoPath)
-		exit()
 		self.gitPush()
 		self.gitUrlFormation(modifiedFiles,gitFileName,commitID)
 		
