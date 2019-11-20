@@ -122,6 +122,7 @@ class gitPushPUML():
 	
 	def excelWriter(self,gitURL,filenameForm):
 		print("Excel Writer Begins")
+		now = datetime.now()
 		workbook = xlsxwriter.Workbook("GitHubUrl.xlsx")
 		worksheet = workbook.add_worksheet()
 		titleFormat = workbook.add_format({'bold': True, 'font_color': 'red'})
