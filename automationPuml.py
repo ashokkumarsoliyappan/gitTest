@@ -83,9 +83,9 @@ class gitPushPUML():
 		
 		self.gitPull()
 		fileUpload,filenameForm = self.gitAddCommit(localRepoPath)
-		print(fileUpload)
-		exit()
 		self.gitPush()
+		self.excelWriter()
+		# self.gitUrlFormation(fileUpload,filenameForm)
 		
 	def gitStatus(self):
 		print("git Status")
@@ -120,7 +120,6 @@ class gitPushPUML():
 		repo.git.push()
 		origin.push()
 		print("Latest changes and files have been commited in the GitHub remote Repository")
-		self.gitUrlFormation()
 	
 	def excelWriter(self):
 		workbook = xlsxwriter.Workbook("GitHubUrl.xlsx")
@@ -131,7 +130,8 @@ class gitPushPUML():
 		worksheet.write('B1', 'GitHub File URL',titleFormat)
 		worksheet.write('C1', 'File Uploaded Date',titleFormat)
 
-	def gitUrlFormation():
+	def gitUrlFormation(self,fileUpload,filenameForm):
+		gitDoomai
 		self.excelWriter()
 		
 		
