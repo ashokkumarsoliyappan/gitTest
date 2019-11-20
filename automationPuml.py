@@ -1,4 +1,5 @@
 from git import Repo
+from git import *
 from shutil import copyfile
 from datetime import datetime
 from sys import exit
@@ -84,6 +85,7 @@ class gitPushPUML():
 		
 		self.gitPull()
 		modifiedFiles,gitFileName = self.gitAddCommit(localRepoPath)
+		exit()
 		self.gitPush()
 		self.gitUrlFormation(modifiedFiles,gitFileName)
 		
@@ -105,6 +107,8 @@ class gitPushPUML():
 			gitFileName.append(ExtensionFile[1])
 			try:
 				repo.git.commit('-m', commitMsg)
+				print(repo.commits())
+				exit()
 				filenameForm.append(ExtensionFile[1])
 				modifiedFiles.append(file)
 			except git.exc.GitCommandError:
