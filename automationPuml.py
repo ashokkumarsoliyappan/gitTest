@@ -122,6 +122,7 @@ class gitPushPUML():
 		print("Latest changes and files have been commited in the GitHub remote Repository")
 	
 	def excelWriter(self):
+		print("Excel Writer Begins")
 		workbook = xlsxwriter.Workbook("GitHubUrl.xlsx")
 		worksheet = workbook.add_worksheet()
 		titleFormat = workbook.add_format({'bold': True, 'font_color': 'red'})
