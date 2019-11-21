@@ -153,6 +153,8 @@ class gitPushPUML():
 		# worksheet.write('D1', 'Branch',titleFormat)
 		
 		for cellData in range(len(gitURL)):
+			print(str(commitID[cellData]))
+			exit()
 			worksheet.write(cellData+1,0,gitFileName[cellData])
 			worksheet.write(cellData+1,1,gitURL[cellData])
 			worksheet.write(cellData+1,2,str(commitID[cellData]))
