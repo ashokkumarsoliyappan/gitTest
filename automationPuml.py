@@ -119,6 +119,9 @@ class gitPushPUML():
 				modifiedFiles.append(file)
 			except git.exc.GitCommandError:
 				logging.info("There is no changes made in the file/Already in the github  repository")
+			except KeyboardInterrupt:
+				logging.info(config.keyboardInterruptlog)
+		logging.info("Commited the files in the respository")
 		return filesCopied,gitFileName,commitID
 		 
 	def gitPull(self):
@@ -126,9 +129,11 @@ class gitPushPUML():
 			global origin		
 			origin = repo.remote(name='origin')
 			origin.pull()
-			logging.debug("Successfully Pulled the changes from the remote{} repository".format(config.gitUserCred['gitHubRepository']))
+			logging.info("Successfully Pulled the changes from the remote{} repository".format(config.gitUserCred['gitHubRepository']))
 		except exception as e:
 			logging.error(e)
+			print(e)
+			exit()
 		
 	def gitPush(self):
 		print("push begins")
@@ -138,6 +143,8 @@ class gitPushPUML():
 			print(config.pushConfirmationMsg)
 		except Exception as e:
 			logging.error(e)
+		except KeyboardInterrupt:
+			logging.info(config.keyboardInterruptlog)
 	
 	def excelWriter(self,gitURL,gitFileName,commitID):
 		print("Excel Writer Begins")
@@ -151,7 +158,6 @@ class gitPushPUML():
 		worksheet.write('B1', 'GitHub File URL',titleFormat)
 		worksheet.write('C1', 'COMMIT ID',titleFormat)
 		worksheet.write('D1', 'File Upload Date',titleFormat)
-		# worksheet.write('D1', 'Branch',titleFormat)
 		
 		for cellData in range(len(gitURL)):
 			print("{}={}={}".format(gitFileName[cellData],gitURL[cellData],str(commitID[cellData])))
@@ -160,7 +166,6 @@ class gitPushPUML():
 			worksheet.write(cellData+1,2,str(commitID[cellData]))
 			worksheet.write(cellData+1,3,now.strftime("%d/%m/%Y %H:%M:%S"))
 			print("demo")
-			# worksheet.write('D1', 'Branch',titleFormat)
 		
 		workbook.close()
 		logging.info("Excel have been successfully created")
