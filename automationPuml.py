@@ -158,10 +158,13 @@ class gitPushPUML():
 		worksheet.write('D1', 'File Upload Date',titleFormat)
 		
 		for cellData in range(len(gitURL)):
-			worksheet.write(cellData+1,0,gitFileName[cellData])
-			worksheet.write(cellData+1,1,gitURL[cellData])
-			worksheet.write(cellData+1,2,str(commitID[cellData]))
-			worksheet.write(cellData+1,3,now.strftime("%d/%m/%Y %H:%M:%S"))
+			try :
+				worksheet.write(cellData+1,0,gitFileName[cellData])
+				worksheet.write(cellData+1,1,gitURL[cellData])
+				worksheet.write(cellData+1,2,str(commitID[cellData]))
+				worksheet.write(cellData+1,3,now.strftime("%d/%m/%Y %H:%M:%S"))
+			except Exception as e:
+				logging.error(e)
 		
 		workbook.close()
 		logging.info("Excel have been successfully created")
