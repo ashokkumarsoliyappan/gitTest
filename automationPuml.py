@@ -84,7 +84,7 @@ class gitPushPUML():
 		
 		self.gitPull()
 		modifiedFiles,gitFileName,commitID = self.gitAddCommit(localRepoPath)
-		# self.gitPush()
+		self.gitPush()
 		self.gitUrlFormation(modifiedFiles,gitFileName,commitID)
 		
 	def gitStatus(self):
