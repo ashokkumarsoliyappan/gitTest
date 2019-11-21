@@ -13,6 +13,11 @@ import logging
 
 class gitPushPUML():
 
+	errorLogFormat = "%(asctime)s:::%(filename)s:::%(lineno)d:::%(message)s"
+	logFormat = "%(asctime)s:::%(filename)s:::%(message)s"
+	logging.basicConfig(filename=config.LOGFIleNAME,level=logging.DEBUG, format = logFormat)
+	logging.basicConfig(filename=config.LOGFIleNAME,level=logging.error, format = errorLogFormat)
+
 	def fileCopyLocal(self,requiredFiles,dst):
 		for src in requiredFiles :
 			try:
@@ -59,6 +64,7 @@ class gitPushPUML():
 		# requiredFiles = self.fileFormatFilter(desiredPath)
 		# self.fileCopyLocal(requiredFiles,localFodlerPath)
 		# self.fileNameAndPath(localFodlerPath)
+		logging.info("================>ProcessStarted<================")
 		self.gitUserLogin(desiredPath)
 		exit()
 		
@@ -76,13 +82,14 @@ class gitPushPUML():
 		global repo,head
 		if os.path.exists(repositoryClone):
 			repo = git.Repo(config.gitUserCred['gitHubRepository'])
-			print(config.repoClonnedExist)
+			# print(config.repoClonnedExist)
+			logging.debug(config.repoClonnedExist)
 		else:
 			repository = Repo.init(localRepoPath)
 			git.Git(localRepoPath).clone(cloneRepository)
 			repo = git.Repo(config.gitUserCred['gitHubRepository'])
 			print(config.repoClonnedSuccessMsg)
-		
+			logging.debug(config.repoClonnedSuccessMsg)
 		self.gitPull()
 		modifiedFiles,gitFileName,commitID = self.gitAddCommit(localRepoPath)
 		self.gitPush()
@@ -111,19 +118,26 @@ class gitPushPUML():
 				filenameForm.append(ExtensionFile[1])
 				modifiedFiles.append(file)
 			except git.exc.GitCommandError:
-				print("The file has no changes")
+				print("There is no changes made in the file/Already in the github  repository")
 		return filesCopied,gitFileName,commitID
 		 
 	def gitPull(self):
-		global origin		
-		origin = repo.remote(name='origin')
-		origin.pull()
+		try :
+			global origin		
+			origin = repo.remote(name='origin')
+			origin.pull()
+			logging.debug("Successfully Pulled the changes from the remote{{}} repository".format(config.gitUserCred['gitHubRepository']))
+		except exception as e:
+			logging.error(e)
 		
 	def gitPush(self):
 		print("push begins")
-		repo.git.push()
-		origin.push()
-		print(config.pushConfirmationMsg)
+		try :
+			repo.git.push()
+			origin.push()
+			print(config.pushConfirmationMsg)
+		except Exception as e:
+			logging.error(e)
 	
 	def excelWriter(self,gitURL,gitFileName,commitID):
 		print("Excel Writer Begins")
@@ -146,6 +160,7 @@ class gitPushPUML():
 			# worksheet.write('D1', 'Branch',titleFormat)
 		
 		workbook.close()
+		logging.info("Excel have been successfully created")
 		print("Excel have been successfully created")
 
 	def gitUrlFormation(self,filesCopied,gitFileName,commitID):
