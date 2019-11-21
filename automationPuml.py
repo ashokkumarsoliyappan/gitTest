@@ -1,5 +1,5 @@
 from git import Repo,Commit
-from shutil import copyfile
+# from shutil import copyfile
 from datetime import datetime
 from sys import exit
 import git
@@ -9,6 +9,7 @@ import getpass
 import shutil
 import config
 import xlsxwriter
+import logging
 
 class gitPushPUML():
 
