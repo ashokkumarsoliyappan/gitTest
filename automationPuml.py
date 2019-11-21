@@ -83,13 +83,13 @@ class gitPushPUML():
 		if os.path.exists(repositoryClone):
 			repo = git.Repo(config.gitUserCred['gitHubRepository'])
 			# print(config.repoClonnedExist)
-			logging.debug(config.repoClonnedExist)
+			logging.info(config.repoClonnedExist)
 		else:
 			repository = Repo.init(localRepoPath)
 			git.Git(localRepoPath).clone(cloneRepository)
 			repo = git.Repo(config.gitUserCred['gitHubRepository'])
 			print(config.repoClonnedSuccessMsg)
-			logging.debug(config.repoClonnedSuccessMsg)
+			logging.info(config.repoClonnedSuccessMsg)
 		self.gitPull()
 		modifiedFiles,gitFileName,commitID = self.gitAddCommit(localRepoPath)
 		self.gitPush()
@@ -154,11 +154,12 @@ class gitPushPUML():
 		# worksheet.write('D1', 'Branch',titleFormat)
 		
 		for cellData in range(len(gitURL)):
-			print(str(commitID[cellData]))
+			print("{{}}={{}}={{}}".format(gitFileName[cellData],gitURL[cellData],str(commitID[cellData])))
 			worksheet.write(cellData+1,0,gitFileName[cellData])
 			worksheet.write(cellData+1,1,gitURL[cellData])
 			worksheet.write(cellData+1,2,str(commitID[cellData]))
 			worksheet.write(cellData+1,3,now.strftime("%d/%m/%Y %H:%M:%S"))
+			print("demo")
 			# worksheet.write('D1', 'Branch',titleFormat)
 		
 		workbook.close()
