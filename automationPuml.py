@@ -135,7 +135,7 @@ class gitPushPUML():
 			logging.error(e)
 		
 	def gitPush(self):
-		logging.info("started Push the files to the master branch from local ")
+		logging.info("started to push the files to the master branch from local ")
 		try :
 			repo.git.push()
 			origin.push()
@@ -158,13 +158,13 @@ class gitPushPUML():
 		worksheet.write('D1', 'File Upload Date',titleFormat)
 		
 		for cellData in range(len(gitURL)):
+			worksheet.write(cellData+1,0,gitFileName[cellData])
+			worksheet.write(cellData+1,1,gitURL[cellData])
 			try :
-				worksheet.write(cellData+1,0,gitFileName[cellData])
-				worksheet.write(cellData+1,1,gitURL[cellData])
 				worksheet.write(cellData+1,2,str(commitID[cellData]))
-				worksheet.write(cellData+1,3,now.strftime("%d/%m/%Y %H:%M:%S"))
 			except Exception as e:
 				logging.error(e)
+			worksheet.write(cellData+1,3,now.strftime("%d/%m/%Y %H:%M:%S"))
 		
 		workbook.close()
 		logging.info("Excel have been successfully created")
