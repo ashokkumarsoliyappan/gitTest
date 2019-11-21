@@ -126,7 +126,7 @@ class gitPushPUML():
 			global origin		
 			origin = repo.remote(name='origin')
 			origin.pull()
-			logging.debug("Successfully Pulled the changes from the remote{{}} repository".format(config.gitUserCred['gitHubRepository']))
+			logging.debug("Successfully Pulled the changes from the remote{} repository".format(config.gitUserCred['gitHubRepository']))
 		except exception as e:
 			logging.error(e)
 		
@@ -154,7 +154,7 @@ class gitPushPUML():
 		# worksheet.write('D1', 'Branch',titleFormat)
 		
 		for cellData in range(len(gitURL)):
-			print("{{}}={{}}={{}}".format(gitFileName[cellData],gitURL[cellData],str(commitID[cellData])))
+			print("{}={}={}".format(gitFileName[cellData],gitURL[cellData],str(commitID[cellData])))
 			worksheet.write(cellData+1,0,gitFileName[cellData])
 			worksheet.write(cellData+1,1,gitURL[cellData])
 			worksheet.write(cellData+1,2,str(commitID[cellData]))
