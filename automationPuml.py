@@ -60,12 +60,12 @@ class gitPushPUML():
 		userSourcePath = os.getcwd() #to find the user directory
 		desiredPath = userSourcePath + "\AutomationProject"
 		currentSystemUser = getpass.getuser()
+		logging.info("================>ProcessStarted<================")
+		self.gitUserLogin(desiredPath)
 		# localFodlerPath = self.localFolderCreation()
 		# requiredFiles = self.fileFormatFilter(desiredPath)
 		# self.fileCopyLocal(requiredFiles,localFodlerPath)
 		# self.fileNameAndPath(localFodlerPath)
-		logging.info("================>ProcessStarted<================")
-		self.gitUserLogin(desiredPath)
 		
 	def deleteLocalFolder(self,localFodlerPath):
 		shutil.rmtree(folderPath)
@@ -116,12 +116,12 @@ class gitPushPUML():
 				filenameForm.append(ExtensionFile[1])
 				modifiedFiles.append(file)
 			except git.exc.GitCommandError:
-				logging.info("There is no changes made in the file/Already in the github  repository")
+				logging.info("There is no changes made in the file / file already in the github  repository")
 			except KeyboardInterrupt:
 				logging.info(config.keyboardInterruptlog)
 			except exception as e:
 				logging.info(e)
-		logging.info("Commited the files in the respository")
+		logging.info("Commited the files to the respository")
 		return filesCopied,gitFileName,commitID
 		 
 	def gitPull(self):
@@ -129,13 +129,13 @@ class gitPushPUML():
 			global origin		
 			origin = repo.remote(name='origin')
 			origin.pull()
-			logmsg = "Successfully Pulled the changes from the remote" + config.gitUserCred['gitHubRepository'] + "repository"
+			logmsg = "Successfully Pulled the changes from the remote " + config.gitUserCred['gitHubRepository'] + " repository to Local repository"
 			logging.info(logmsg)
 		except Exception as e:
 			logging.error(e)
 		
 	def gitPush(self):
-		logging.info("Push the files to the master branch")
+		logging.info("started Push the files to the master branch from local ")
 		try :
 			repo.git.push()
 			origin.push()
@@ -158,7 +158,6 @@ class gitPushPUML():
 		worksheet.write('D1', 'File Upload Date',titleFormat)
 		
 		for cellData in range(len(gitURL)):
-			# print("{}={}={}".format(gitFileName[cellData],gitURL[cellData],str(commitID[cellData])))
 			worksheet.write(cellData+1,0,gitFileName[cellData])
 			worksheet.write(cellData+1,1,gitURL[cellData])
 			worksheet.write(cellData+1,2,str(commitID[cellData]))
@@ -166,7 +165,7 @@ class gitPushPUML():
 		
 		workbook.close()
 		logging.info("Excel have been successfully created")
-		print("Excel have been successfully created")
+		print("Excel have been successfully created with the data")
 
 	def gitUrlFormation(self,filesCopied,gitFileName,commitID):
 		gitURL = []
