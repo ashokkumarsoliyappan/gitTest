@@ -15,7 +15,7 @@ class gitPushPUML():
 
 	errorLogFormat = "%(asctime)s:::%(filename)s:::%(lineno)d:::%(message)s"
 	logFormat = "%(asctime)s:::%(filename)s:::%(message)s"
-	logging.basicConfig(filename=config.LOGFIleNAME,level=logging.DEBUG, format = logFormat)
+	logging.basicConfig(filename=config.LOGFIleNAME,level=logging.INFO, format = logFormat)
 	logging.basicConfig(filename=config.LOGFIleNAME,level=logging.error, format = errorLogFormat)
 
 	def fileCopyLocal(self,requiredFiles,dst):
@@ -118,7 +118,7 @@ class gitPushPUML():
 				filenameForm.append(ExtensionFile[1])
 				modifiedFiles.append(file)
 			except git.exc.GitCommandError:
-				print("There is no changes made in the file/Already in the github  repository")
+				logging.info("There is no changes made in the file/Already in the github  repository")
 		return filesCopied,gitFileName,commitID
 		 
 	def gitPull(self):
@@ -146,6 +146,7 @@ class gitPushPUML():
 		worksheet = workbook.add_worksheet()
 		titleFormat = workbook.add_format({'bold': True, 'font_color': 'red'})
 		titleFormat.set_align('center')
+		logging.info("Started to push the data to Excel Begins")
 		worksheet.write('A1', 'File Name',titleFormat)
 		worksheet.write('B1', 'GitHub File URL',titleFormat)
 		worksheet.write('C1', 'COMMIT ID',titleFormat)
@@ -154,7 +155,6 @@ class gitPushPUML():
 		
 		for cellData in range(len(gitURL)):
 			print(str(commitID[cellData]))
-			exit()
 			worksheet.write(cellData+1,0,gitFileName[cellData])
 			worksheet.write(cellData+1,1,gitURL[cellData])
 			worksheet.write(cellData+1,2,str(commitID[cellData]))
