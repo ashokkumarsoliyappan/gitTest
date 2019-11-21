@@ -10,6 +10,8 @@ gitUserCred = {'userName' : 'ashokkumarsoliyappan',
 
 localGitRepository = {'gitLocalConfig' : R'C:\Users\z028605\AppData\Local\Programs\Python\Python37-32\.git',
 		'gitLocalRepository' : ''}
+		
+LOGFIleNAME= "autogitlog"
 
 userExcelPath = os.environ['USERPROFILE'] + "\Desktop\gitUrl.xlsx"
 repoClonnedExist = "The Repository already exists"
