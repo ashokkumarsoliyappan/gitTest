@@ -13,10 +13,10 @@ import logging
 
 class gitPushPUML():
 
-	errorLogFormat = "%(asctime)s:::%(filename)s:::%(lineno)d:::%(message)s"
+	errorLogFormat = "%(asctime)s:::%(filename)s:::%(message)s"
 	logFormat = "%(asctime)s:::%(filename)s:::%(message)s"
-	logging.basicConfig(filename=config.LOGFIleNAME,level=logging.INFO, format = logFormat)
-	logging.basicConfig(filename=config.LOGFIleNAME,level=logging.error, format = errorLogFormat)
+	logging.basicConfig(filename=config.LOGFIleNAME,level=logging.INFO, format = logFormat,filemode='w')
+	logging.basicConfig(filename=config.LOGFIleNAME,level=logging.error, format = errorLogFormat,filemode='w')
 
 	def fileCopyLocal(self,requiredFiles,dst):
 		for src in requiredFiles :
