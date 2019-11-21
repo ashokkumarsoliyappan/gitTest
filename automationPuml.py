@@ -147,7 +147,10 @@ class gitPushPUML():
 	
 	def excelWriter(self,gitURL,gitFileName,commitID):
 		now = datetime.now()
-		workbook = xlsxwriter.Workbook("GitHubUrl.xlsx")
+		try :
+			workbook = xlsxwriter.Workbook("GitHubUrl.xlsx")
+		except xlsxwriter.exceptions.FileCreateError:
+			print("Please close the excel GitHubUrl.xlsx")
 		worksheet = workbook.add_worksheet()
 		titleFormat = workbook.add_format({'bold': True, 'font_color': 'red'})
 		titleFormat.set_align('center')
