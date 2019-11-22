@@ -1,5 +1,4 @@
 from git import Repo,Commit
-# from shutil import copyfile
 from datetime import datetime
 from sys import exit
 import git
