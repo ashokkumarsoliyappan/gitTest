@@ -1,0 +1,15 @@
+import docx
+import os
+
+print("bins")
+doc = docx.Document("testing.docx")
+# doc = Document("test.docx")
+blip = doc.inline_shapes[2]._inline.graphic.graphicData.pic.blipFill.blip
+rID = blip.embed
+document_part = doc.part
+image_part = document_part.related_parts[rID]
+
+fr = open("test1.png", "wb")
+fr.write(image_part._blob)
+fr.close()
+print("ends")
