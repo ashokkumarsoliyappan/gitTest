@@ -13,3 +13,17 @@ fr = open("test1.png", "wb")
 fr.write(image_part._blob)
 fr.close()
 print("ends")
+
+
+data = ['test.png','test1.png']
+i = 0
+doc = docx.Document("testing.docx")
+for oleEmbed in doc.inline_shapes :
+	blip = doc.inline_shapes[i]._inline.graphic.graphicData.pic.blipFill.blip
+	rID = blip.embed
+	document_part = doc.part
+	image_part = document_part.related_parts[rID]
+	fr = open(data[i], "wb")
+	fr.write(image_part._blob)
+	i += 1
+fr.close()
