@@ -5,6 +5,7 @@ Following libraries need to be installed
 
 
 # Azure Blob upload
+
 Following libraries need to be installed
   1.azure-storage-blob - command to install "pip install azure-storage-blob" to upload the files to Azure blob storage
   2.azure - command to install "pip install azure" to access the microsoft azure
