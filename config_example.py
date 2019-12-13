@@ -30,7 +30,7 @@ azureBlobConnect = {'accountName' : 'blob storage account name',
 mailConfig = { 'mailSubject' : 'mail subject',
 		'mailTo'	: "TO mail id",
 		'mailCC'	: "CC Mail ID",
-		'mailBody'	: "Hi Team <p>Good day.</p> <p>We have updated the latest CSV file in Blob Storage today</p> <p>Regards, <br>Interface team</p>"
+		'mailBody'	: "Hi Team <p>Good day.</p> <p>Please find the mail</p> <p>Regards, <br>team</p>"
 }
 csvLocalPath = R"csv file local Path"
 BlobLogFileName = "Log file name" 
