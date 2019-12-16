@@ -70,7 +70,7 @@ class AzureBlobFileUpload():
 		Msg.To = config.mailConfig['mailTo']
 		Msg.CC = config.mailConfig['mailCC']
 		Msg.Send()
-		logging.info("Successfuly Mail Haven been sent")
+		logging.info("Successfuly Mail Have been sent")
 			
 obj = AzureBlobFileUpload()
 obj.processStart()
