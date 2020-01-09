@@ -15,23 +15,23 @@ class AzureBlobFileUpload():
 	logging.basicConfig(filename=config.BlobLogFileName,level=logging.error, format = errorLogFormat)
 		
 	def processStart(self):
+		logging.info("================>ProcessStarted<================")
 		global nestList,localCredential
 		nestList = []
 		localCredential = R"C:\Users\\" + getpass.getuser() + "\AppData\Local\CredAzure.txt"
-		aureCred = self.fileCheck()
-		accountName,accountKey,connectionStr,containerName = aureCred
-		exit()
+		azureCred = self.configChange()
+		# azureCred = self.fileCheck()
+		accountName,accountKey,containerName,connectionStr = azureCred
 		self.azureConnection(accountName,accountKey,connectionStr,containerName)
 		logging.info("================>Process Ended<================")
 
 	def azureConnection(self,accountName,accountKey,connectionStr,containerName):
 		try:
-			logging.info("================>ProcessStarted<================")
 			global blob_service_client
 			blob_service_client = BlockBlobService(account_name=accountName, account_key=accountKey)
 			# blob_service_client.set_container_acl(containerName, public_access=PublicAccess.Container)
-			self.listBlob(containerName) #to list the blobs in the container
-			self.fileUploadBlob(containerName) # to upload the files
+			# self.fileUploadBlob(containerName) # to upload the files
+			# self.listBlob(containerName) #to list the blobs in the container
 		except Exception as e:
 			print(e)
 	
@@ -61,6 +61,7 @@ class AzureBlobFileUpload():
 		self.mailForward()
 		
 	def mailForward(self):
+		logging.info("Windows outlook mail have been connected")
 		mailTrig = win32com.client.Dispatch("Outlook.Application")
 
 		Msg = mailTrig.CreateItem(0)
@@ -70,18 +71,17 @@ class AzureBlobFileUpload():
 
 		Msg.To = config.mailConfig['mailTo']
 		Msg.CC = config.mailConfig['mailCC']
-		# Msg.Display() # to make the use to enter the mail subject, body and mail recipient 
-		Msg.Send()
+		Msg.Display() # to make the use to enter the mail subject, body and mail recipient 
+		# Msg.Send()
 		logging.info("Successfuly Mail Have been sent")
 		
 	def fileCheck(self):
 		if os.path.exists(localCredential):
 			print("file exists")
 			pass
-
 		else:
 			accName = input("Enter the Acc name:")
-			accKey = input("Enter the user name:")
+			accKey = input("Enter the Acc key:")
 			containerName = input("Enter the container name:")
 			connectString = input("Enter the connectString:")
 			fil = open(localCredential,"w+")
@@ -92,8 +92,8 @@ class AzureBlobFileUpload():
 			fil.close()
 		with open(localCredential,"r") as doc:
 			credData = [line.strip().split() for line in doc.readlines()]
-		azurCred = self.removeinList(credData)
-		return azurCred
+		azureCred = self.removeinList(credData)
+		return azureCred
 			
 	
 	def removeinList(self,credData):
@@ -102,8 +102,22 @@ class AzureBlobFileUpload():
 				self.removeinList(i)
 			else:
 				nestList.append(i)
-		
 		return nestList
+		
+	def configChange(self):
+		userAct = input("Do You Want to Proceed With the Same Container or Quit? Y! or N! or Q!")
+		if (userAct.lower() == "y"):
+			logging.info("Config not yet changed")
+			data = self.fileCheck()
+		elif (userAct.lower() == "n"):
+			logging.info("Congif Deleted and Updated with new config")
+			os.remove(localCredential)
+			data = self.fileCheck()
+		elif (userAct.lower() == "q"):
+			exit()
+		else:
+			data = self.fileCheck()
+		return data
 		
 obj = AzureBlobFileUpload()
 obj.processStart()
